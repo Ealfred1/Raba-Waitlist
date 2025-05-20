@@ -2,8 +2,28 @@
 
 import { useEffect, useRef } from "react"
 
+interface LogoInstance {
+  x: number
+  y: number
+  rotation: number
+  scale: number
+  skewX: number
+  skewY: number
+  opacity: number
+  // Movement parameters
+  speedX: number
+  speedY: number
+  rotationSpeed: number
+  maxDistance: number
+  originalX: number
+  originalY: number
+  movementAngle: number
+  movementProgress: number
+}
+
 export function AnimatedBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const animationRef = useRef<number>(0)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -17,30 +37,49 @@ export function AnimatedBackground() {
       if (canvas) {
         canvas.width = window.innerWidth
         canvas.height = window.innerHeight
-        drawLogos() // Redraw logos after resize
       }
     }
 
     // Generate random logo instances
-    const logoCount = Math.max(20, Math.floor((window.innerWidth * window.innerHeight) / 40000)) // Ensure minimum count
-    const logos = Array.from({ length: logoCount }, () => ({
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      rotation: Math.random() * 360,
-      scale: 0.1 + Math.random() * 0.3,
-      skewX: (Math.random() - 0.5) * 0.3,
-      skewY: (Math.random() - 0.5) * 0.3,
-      opacity: 0.05 + Math.random() * 0.1,
-    }))
+    const generateLogos = () => {
+      const logoCount = Math.max(20, Math.floor((window.innerWidth * window.innerHeight) / 40000))
+      return Array.from({ length: logoCount }, () => {
+        const x = Math.random() * window.innerWidth
+        const y = Math.random() * window.innerHeight
+        return {
+          x,
+          y,
+          rotation: Math.random() * 360,
+          scale: 0.1 + Math.random() * 0.3,
+          skewX: (Math.random() - 0.5) * 0.3,
+          skewY: (Math.random() - 0.5) * 0.3,
+          opacity: 0.05 + Math.random() * 0.1,
+          // Movement parameters - very slow speeds
+          speedX: (Math.random() - 0.5) * 0.2,
+          speedY: (Math.random() - 0.5) * 0.2,
+          rotationSpeed: (Math.random() - 0.5) * 0.05,
+          maxDistance: 20 + Math.random() * 30, // Maximum distance to move from original position
+          originalX: x,
+          originalY: y,
+          movementAngle: Math.random() * Math.PI * 2, // Random angle for circular movement
+          movementProgress: Math.random() * Math.PI * 2, // Random starting point in the movement cycle
+        }
+      })
+    }
+
+    let logos = generateLogos()
 
     // Load the logo image
     const logoImage = new Image()
     logoImage.src = "/raba-logo.png"
     logoImage.crossOrigin = "anonymous"
 
-    // Function to draw logos
-    function drawLogos() {
-      if (!canvas || !ctx || !logoImage.complete) return
+    // Animation function
+    const animate = () => {
+      if (!canvas || !ctx || !logoImage.complete) {
+        animationRef.current = requestAnimationFrame(animate)
+        return
+      }
 
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -49,8 +88,18 @@ export function AnimatedBackground() {
       ctx.fillStyle = "rgba(26, 26, 26, 0.95)"
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      // Draw each logo instance
+      // Update and draw each logo instance
       logos.forEach((logo) => {
+        // Update movement progress
+        logo.movementProgress += 0.001 // Very slow movement
+
+        // Calculate new position using circular/wave motion
+        logo.x = logo.originalX + Math.cos(logo.movementProgress) * logo.maxDistance * Math.cos(logo.movementAngle)
+        logo.y = logo.originalY + Math.sin(logo.movementProgress) * logo.maxDistance * Math.sin(logo.movementAngle)
+
+        // Slowly rotate
+        logo.rotation += logo.rotationSpeed
+
         ctx.save()
 
         // Position and transform
@@ -67,25 +116,30 @@ export function AnimatedBackground() {
 
         ctx.restore()
       })
+
+      animationRef.current = requestAnimationFrame(animate)
     }
 
     // Initial setup
     resizeCanvas()
+    window.addEventListener("resize", () => {
+      resizeCanvas()
+      logos = generateLogos() // Regenerate logos on resize
+    })
 
-    // Add event listener for resize
-    window.addEventListener("resize", resizeCanvas)
-
-    // Draw when image is loaded
+    // Start animation when image is loaded
     if (logoImage.complete) {
-      drawLogos()
+      animate()
     } else {
-      logoImage.onload = drawLogos
+      logoImage.onload = animate
     }
 
-    // Animation frame is not needed since we're not animating
-
+    // Cleanup
     return () => {
       window.removeEventListener("resize", resizeCanvas)
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
     }
   }, [])
 
