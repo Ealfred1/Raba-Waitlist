@@ -87,7 +87,7 @@ export function WaitlistForm() {
                     </div>
                     <input
                       type="email"
-                      placeholder="your@email.com"
+                      placeholder="johnnykaye@email.com"
                       value={email}
                       onChange={(e) => {
                         setEmail(e.target.value)

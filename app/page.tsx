@@ -20,7 +20,7 @@ export default function Home() {
               The Future of Finance
             </h1>
             <div className="inline-block relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-[#E5C66E] to-[#D4AF37] rounded-lg blur opacity-30"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#E5C66E11] to-[#D4AF3711] rounded-lg blur opacity-10"></div>
               <p className="relative text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto px-6 py-2">
                 Be the first to experience Raba
               </p>
@@ -28,7 +28,7 @@ export default function Home() {
           </div>
 
           <div className="relative z-10 mb-16">
-            <div className="absolute -inset-4 md:-inset-6 bg-gradient-to-r from-[#E5C66E]/30 via-[#D4AF37]/20 to-[#E5C66E]/30 rounded-2xl blur-lg"></div>
+            <div className="absolute -inset-4 md:-inset-6 bg-gradient-to-r from-[#E5C66E]/30 via-[#D4AF37]/20 to-[#E5C66E]/30 rounded-2xl blur-lg opacity-20"></div>
             <div className="relative bg-[#222222]/90 backdrop-blur-sm border border-[#E5C66E]/30 rounded-xl p-6 md:p-10">
               <WaitlistForm />
             </div>
@@ -44,10 +44,10 @@ export default function Home() {
             </div>
             <div className="order-1 md:order-2 flex justify-center">
               <div className="relative w-full max-w-md">
-                <div className="absolute -inset-4 bg-gradient-to-r from-[#E5C66E]/30 to-[#D4AF37]/30 rounded-2xl blur-lg"></div>
+                <div className="absolute -inset-4 bg-gradient-to-r from-[#E5C66E]/30 to-[#D4AF37]/30 rounded-2xl"></div>
                 <div className="relative">
                   <Image
-                    src="/dashboard-preview.png"
+                    src="/banner.jpg"
                     alt="Raba Platform Preview"
                     width={500}
                     height={400}
