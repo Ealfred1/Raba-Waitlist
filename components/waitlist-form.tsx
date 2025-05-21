@@ -135,7 +135,7 @@ export function WaitlistForm({ isVisible }: { isVisible: boolean }) {
           </div>
 
           <AnimatePresence mode="wait">
-            <motion.div
+            <motion.div 
               key={step}
               initial="hidden"
               animate="visible"

@@ -18,6 +18,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <title>Raba - Join the Waitlist</title>
+        <meta name="description" content="Be the first to experience Raba. Join our exclusive waitlist today." />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="Raba - Join the Waitlist" />
+        <meta property="og:description" content="Be the first to experience Raba. Join our exclusive waitlist today." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/logo.png" />
+        <meta property="og:url" content="https://sendraba.com" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Raba - Join the Waitlist" />
+        <meta name="twitter:description" content="Be the first to experience Raba. Join our exclusive waitlist today." />
+        <meta name="twitter:image" content="/logo.png" />
+        <link rel="icon" href="/logo.png" type="image/png" />
+      </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {children}
