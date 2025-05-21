@@ -19,6 +19,8 @@ interface LogoInstance {
   originalY: number
   movementAngle: number
   movementProgress: number
+  // Type (0: Raba logo, 1: Solana, 2: Tether)
+  type: number
 }
 
 export function AnimatedBackground() {
@@ -42,15 +44,22 @@ export function AnimatedBackground() {
 
     // Generate random logo instances
     const generateLogos = () => {
-      const logoCount = Math.max(20, Math.floor((window.innerWidth * window.innerHeight) / 40000))
-      return Array.from({ length: logoCount }, () => {
+      const logoCount = Math.max(15, Math.floor((window.innerWidth * window.innerHeight) / 60000))
+      const solanaCount = Math.max(5, Math.floor(logoCount / 4))
+      const tetherCount = Math.max(5, Math.floor(logoCount / 4))
+      const rabaCount = logoCount - solanaCount - tetherCount
+
+      const logos: LogoInstance[] = []
+
+      // Add Raba logos
+      for (let i = 0; i < rabaCount; i++) {
         const x = Math.random() * window.innerWidth
         const y = Math.random() * window.innerHeight
-        return {
+        logos.push({
           x,
           y,
           rotation: Math.random() * 360,
-          scale: 0.1 + Math.random() * 0.3,
+          scale: 0.1 + Math.random() * 0.2,
           skewX: (Math.random() - 0.5) * 0.3,
           skewY: (Math.random() - 0.5) * 0.3,
           opacity: 0.05 + Math.random() * 0.1,
@@ -63,23 +72,79 @@ export function AnimatedBackground() {
           originalY: y,
           movementAngle: Math.random() * Math.PI * 2, // Random angle for circular movement
           movementProgress: Math.random() * Math.PI * 2, // Random starting point in the movement cycle
-        }
-      })
+          type: 0, // Raba logo
+        })
+      }
+
+      // Add Solana logos
+      for (let i = 0; i < solanaCount; i++) {
+        const x = Math.random() * window.innerWidth
+        const y = Math.random() * window.innerHeight
+        logos.push({
+          x,
+          y,
+          rotation: Math.random() * 360,
+          scale: 0.15 + Math.random() * 0.25,
+          skewX: (Math.random() - 0.5) * 0.2,
+          skewY: (Math.random() - 0.5) * 0.2,
+          opacity: 0.1 + Math.random() * 0.15,
+          speedX: (Math.random() - 0.5) * 0.15,
+          speedY: (Math.random() - 0.5) * 0.15,
+          rotationSpeed: (Math.random() - 0.5) * 0.03,
+          maxDistance: 30 + Math.random() * 40,
+          originalX: x,
+          originalY: y,
+          movementAngle: Math.random() * Math.PI * 2,
+          movementProgress: Math.random() * Math.PI * 2,
+          type: 1, // Solana logo
+        })
+      }
+
+      // Add Tether logos
+      for (let i = 0; i < tetherCount; i++) {
+        const x = Math.random() * window.innerWidth
+        const y = Math.random() * window.innerHeight
+        logos.push({
+          x,
+          y,
+          rotation: Math.random() * 360,
+          scale: 0.15 + Math.random() * 0.25,
+          skewX: (Math.random() - 0.5) * 0.2,
+          skewY: (Math.random() - 0.5) * 0.2,
+          opacity: 0.1 + Math.random() * 0.15,
+          speedX: (Math.random() - 0.5) * 0.15,
+          speedY: (Math.random() - 0.5) * 0.15,
+          rotationSpeed: (Math.random() - 0.5) * 0.03,
+          maxDistance: 30 + Math.random() * 40,
+          originalX: x,
+          originalY: y,
+          movementAngle: Math.random() * Math.PI * 2,
+          movementProgress: Math.random() * Math.PI * 2,
+          type: 2, // Tether logo
+        })
+      }
+
+      return logos
     }
 
     let logos = generateLogos()
 
-    // Load the logo image
-    const logoImage = new Image()
-    logoImage.src = "/raba-logo.png"
-    logoImage.crossOrigin = "anonymous"
+    // Load the logo images
+    const rabaLogo = new window.Image()
+    rabaLogo.src = "/raba-logo.png"
+    rabaLogo.crossOrigin = "anonymous"
 
-    // Animation function
-    const animate = () => {
-      if (!canvas || !ctx || !logoImage.complete) {
-        animationRef.current = requestAnimationFrame(animate)
-        return
-      }
+    const solanaLogo = new window.Image()
+    solanaLogo.src = "/solana-icon.svg"
+    solanaLogo.crossOrigin = "anonymous"
+
+    const tetherLogo = new window.Image()
+    tetherLogo.src = "/tether-icon.svg"
+    tetherLogo.crossOrigin = "anonymous"
+
+    // Function to draw logos
+    function drawLogos() {
+      if (!canvas || !ctx) return
 
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -111,32 +176,75 @@ export function AnimatedBackground() {
         // Set opacity
         ctx.globalAlpha = logo.opacity
 
-        // Draw the logo
-        ctx.drawImage(logoImage, -logoImage.width / 2, -logoImage.height / 2)
+        // Draw the appropriate logo based on type
+        try {
+          if (logo.type === 0 && rabaLogo.complete) {
+            ctx.drawImage(rabaLogo, -rabaLogo.width / 2, -rabaLogo.height / 2)
+          } else if (logo.type === 1 && solanaLogo.complete) {
+            ctx.drawImage(solanaLogo, -solanaLogo.width / 2, -solanaLogo.height / 2)
+          } else if (logo.type === 2 && tetherLogo.complete) {
+            ctx.drawImage(tetherLogo, -tetherLogo.width / 2, -tetherLogo.height / 2)
+          }
+        } catch (error) {
+          console.error("Error drawing image:", error)
+        }
 
         ctx.restore()
       })
+    }
 
-      animationRef.current = requestAnimationFrame(animate)
+    // Animation function
+    const animate = () => {
+      try {
+        drawLogos()
+        animationRef.current = requestAnimationFrame(animate)
+      } catch (error) {
+        console.error("Animation error:", error)
+      }
+    }
+
+    // Handle resize
+    const handleResize = () => {
+      try {
+        resizeCanvas()
+        logos = generateLogos() // Regenerate logos on resize
+      } catch (error) {
+        console.error("Resize error:", error)
+      }
     }
 
     // Initial setup
     resizeCanvas()
-    window.addEventListener("resize", () => {
-      resizeCanvas()
-      logos = generateLogos() // Regenerate logos on resize
-    })
+    window.addEventListener("resize", handleResize)
 
-    // Start animation when image is loaded
-    if (logoImage.complete) {
-      animate()
-    } else {
-      logoImage.onload = animate
+    // Start animation when images are loaded
+    const checkImagesAndStart = () => {
+      if (rabaLogo.complete && solanaLogo.complete && tetherLogo.complete) {
+        animate()
+      } else {
+        // Set onload handlers
+        const startIfAllLoaded = () => {
+          if (rabaLogo.complete && solanaLogo.complete && tetherLogo.complete) {
+            animate()
+          }
+        }
+
+        if (!rabaLogo.complete) rabaLogo.onload = startIfAllLoaded
+        if (!solanaLogo.complete) solanaLogo.onload = startIfAllLoaded
+        if (!tetherLogo.complete) tetherLogo.onload = startIfAllLoaded
+
+        // Fallback in case images don't load
+        setTimeout(() => {
+          animate()
+        }, 2000)
+      }
     }
+
+    checkImagesAndStart()
 
     // Cleanup
     return () => {
-      window.removeEventListener("resize", resizeCanvas)
+      window.removeEventListener("resize", handleResize)
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
       }
