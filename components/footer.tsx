@@ -15,34 +15,24 @@ export function Footer() {
                 </div>
                 <span className="text-[#E5C66E] font-bold text-xl">Raba</span>
               </div>
-              <p className="text-gray-400 mb-6 max-w-md">
-                Raba is revolutionizing the way you save and pay with cryptocurrency. Our platform offers seamless
-                transactions and explosive returns.
-              </p>
               <div className="flex space-x-4">
                 <a
-                  href="#"
+                  href="https://x.com/Sendraba"
                   className="bg-[#222222] hover:bg-[#333333] text-white p-2 rounded-full transition-colors"
                   aria-label="Twitter"
                 >
                   <Twitter size={18} /> 
                 </a>
                 <a
-                  href="#"
+                  href="https://github.com/paywithraba"
                   className="bg-[#222222] hover:bg-[#333333] text-white p-2 rounded-full transition-colors"
                   aria-label="GitHub"
                 >
                   <Github size={18} />
                 </a>
+              
                 <a
-                  href="#"
-                  className="bg-[#222222] hover:bg-[#333333] text-white p-2 rounded-full transition-colors"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin size={18} />
-                </a>
-                <a
-                  href="mailto:contact@raba.finance"
+                  href="mailto:hello@sendraba.xyz"
                   className="bg-[#222222] hover:bg-[#333333] text-white p-2 rounded-full transition-colors"
                   aria-label="Email"
                 >
@@ -53,66 +43,12 @@ export function Footer() {
 
             {/* Quick links */}
             <div>
-              <h3 className="text-[#E5C66E] font-bold text-lg mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Roadmap
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Blog
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Careers
-                  </a>
-                </li>
-              </ul>
+              
             </div>
 
             {/* Resources */}
             <div>
-              <h3 className="text-[#E5C66E] font-bold text-lg mb-4">Resources</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Documentation
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Help Center
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Terms of Service
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                    Contact Us
-                  </a>
-                </li>
-              </ul>
+              
             </div>
           </div>
 
@@ -120,10 +56,11 @@ export function Footer() {
             <p className="text-gray-500 text-sm mb-4 md:mb-0">
               &copy; {new Date().getFullYear()} Raba Finance. All rights reserved.
             </p>
-            <div className="flex items-center space-x-4">
-              <Image src="/solana-icon.svg" alt="Solana" width={24} height={24} />
-              <Image src="/tether-icon.svg" alt="Tether" width={24} height={24} />
-              <Image src="/paypal-icon.svg" alt="PayPal" width={24} height={24} />
+            <div className="flex items-center space-x-4 opacity-50 invert-0">
+              <Image src="/img1.svg" alt="Solana" width={24} height={24} />
+              <Image src="/img2.svg" alt="Tether" width={24} height={24} />
+              <Image src="/img3.svg" alt="PayPal" width={24} height={24} />
+              <Image src="/img4.svg" alt="PayPal" width={24} height={24} />
             </div>
           </div>
         </div>

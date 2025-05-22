@@ -279,7 +279,7 @@ export function WaitlistForm({ isVisible }: { isVisible: boolean }) {
         </motion.div>
       )}
 
-      {/* Social proof */}
+      {/* Social proof
       <div className="mt-10 pt-8 border-t border-[#444444]">
         <p className="text-center text-gray-400 mb-4">Trusted by crypto enthusiasts worldwide</p>
         <div className="flex flex-wrap justify-center items-center gap-8">
@@ -296,7 +296,7 @@ export function WaitlistForm({ isVisible }: { isVisible: boolean }) {
             <Image src="/img4.svg" alt="PayPal" width={80} height={30} />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

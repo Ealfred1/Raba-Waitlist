@@ -34,7 +34,7 @@ export default function Home() {
       <main>
         {/* Hero Section */}
         <HeroSection onJoinWaitlist={handleJoinWaitlist} />
-
+  
         
         
         {/* Waitlist Form (not a modal) */}
